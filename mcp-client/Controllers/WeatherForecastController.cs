@@ -13,8 +13,8 @@ namespace mcp_client.Controllers
     [Route("[controller]")]
     public class ChatController : ControllerBase
     {
-       
 
+        private static readonly Dictionary<Guid,List<ChatMessage>> _AllMmessages = new();
         private readonly ILogger<ChatController> _logger;
         private readonly ChatClient _chatClient;
         private readonly IMcpClient _mcpClient;
@@ -30,10 +30,8 @@ namespace mcp_client.Controllers
         public async Task<Response> Ask(Question question)
         {
             var tools = await _mcpClient.ListToolsAsync();
-            var messages = new List<ChatMessage>
-            {
-                new UserChatMessage(question.Text)
-            };
+            List<ChatMessage>? messages = GetOrCreateConversation(question);
+            messages.Add(new UserChatMessage(question.Text));
             var co = new ChatCompletionOptions();
             foreach (var tool in tools)
             {
@@ -63,8 +61,9 @@ namespace mcp_client.Controllers
                             // Then, add a new tool message for each tool call that is resolved.
                             foreach (ChatToolCall toolCall in completion.ToolCalls)
                             {
-                                if(tools.Select( t=> t.Name).Contains(toolCall.FunctionName,StringComparer.OrdinalIgnoreCase)) {
-                                    var toolResult = await _mcpClient.CallToolAsync(toolCall.FunctionName,JsonSerializer.Deserialize<Dictionary< string,object>>(toolCall.FunctionArguments.ToString()));
+                                if (tools.Select(t => t.Name).Contains(toolCall.FunctionName, StringComparer.OrdinalIgnoreCase))
+                                {
+                                    var toolResult = await _mcpClient.CallToolAsync(toolCall.FunctionName, JsonSerializer.Deserialize<Dictionary<string, object>>(toolCall.FunctionArguments.ToString()));
                                     messages.Add(new ToolChatMessage(toolCall.Id, toolResult.Content[0].Text));
                                 }
                                 else
@@ -91,7 +90,19 @@ namespace mcp_client.Controllers
                 }
             } while (requiresAction);
 
-            return new Response { Text = messages.Last().Content[0].Text };
+            return new Response { Text = messages.Last().Content[0].Text, ConversationId = question.ConversationId };
+        }
+
+        private static List<ChatMessage> GetOrCreateConversation(Question question)
+        {
+            _AllMmessages.TryGetValue(question.ConversationId, out var messages);
+            if (messages == null)
+            {
+                messages = new();
+                _AllMmessages.Add(question.ConversationId, messages);
+            }
+
+            return messages;
         }
     }
 }
