@@ -1,0 +1,6 @@
+apps:
+- appDirPath: weather-mcp-server-dapr
+  appID: weather-mcp-server-dapr
+  appPort: 5062
+  command: ["dotnet", "run"]
+version: 1

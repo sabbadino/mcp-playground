@@ -1,0 +1,6 @@
+@weather_mcp_server_dapr_HostAddress = http://localhost:5062
+
+GET {{weather_mcp_server_dapr_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
