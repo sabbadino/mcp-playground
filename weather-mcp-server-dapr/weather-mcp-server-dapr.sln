@@ -5,6 +5,15 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weather-mcp-server-dapr", "weather-mcp-server-dapr\weather-mcp-server-dapr.csproj", "{2FD79060-FE78-4D6D-B11B-F6752DB8885E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "info", "info", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp-client", "..\mcp-client\mcp-client.csproj", "{DDFECC14-9A7A-4A91-B3DA-8DEC6ADB644F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp-shared", "..\mcp-shared\mcp-shared.csproj", "{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +28,14 @@ Global
 		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Debug|Any CPU.Build.0 = Debug
 		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Release|Any CPU.ActiveCfg = Release
 		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Release|Any CPU.Build.0 = Release
+		{DDFECC14-9A7A-4A91-B3DA-8DEC6ADB644F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDFECC14-9A7A-4A91-B3DA-8DEC6ADB644F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDFECC14-9A7A-4A91-B3DA-8DEC6ADB644F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDFECC14-9A7A-4A91-B3DA-8DEC6ADB644F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
