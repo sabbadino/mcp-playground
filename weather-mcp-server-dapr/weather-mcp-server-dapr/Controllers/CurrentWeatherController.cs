@@ -6,14 +6,14 @@ namespace weather_mcp_server_dapr.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class CurrentWeatherController : ControllerBase
     {
        
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<CurrentWeatherController> _logger;
         private readonly IWeatherApiProxy _weatherApiProxy;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherApiProxy weatherApiProxy)
+        public CurrentWeatherController(ILogger<CurrentWeatherController> logger, IWeatherApiProxy weatherApiProxy)
         {
             _logger = logger;
             _weatherApiProxy = weatherApiProxy;
