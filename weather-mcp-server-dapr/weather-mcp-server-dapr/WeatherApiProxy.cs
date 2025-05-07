@@ -21,7 +21,7 @@ namespace weather_mcp_server_dapr
         {
 
             var client = _httpClientFactory.CreateClient();
-            var ret = await client.GetAsync($"http://api.weatherstack.com/current?access_key={_configuration["apiKey"]}&query={location}&units=m");
+            var ret = await client.GetAsync($"http://api.weatherstack.com/current?access_key={_configuration["weatherApiKey"]}&query={location}&units=m");
             if (!ret.IsSuccessStatusCode)
             {
                 throw new Exception($"{ret.StatusCode} + {await ret.Content.ReadAsStringAsync()}");

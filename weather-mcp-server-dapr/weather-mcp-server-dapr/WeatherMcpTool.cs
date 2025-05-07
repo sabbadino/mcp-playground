@@ -15,8 +15,8 @@ namespace weather_mcp_server_dapr
         {
             _weatherApiProxy = weatherApiProxy;
         }   
-        [McpServerTool, Description("returns the current weather given a town or region name")]
-        public async Task<GetWeatherResponse> GetWeather([Description("The location (town or region) name. IMPORTANT : Assistant must ask the user a value for location. If not provided in the conversation, Assistant must not not make up one")]  string location) {
+        [McpServerTool(Name ="get_current_weather"), Description("returns the current weather given a town or region name")]
+        public async Task<GetWeatherResponse> Get_Weather([Description("The location (town or region) name. IMPORTANT : Assistant must ask the user a value for location. If not provided in the conversation, Assistant must not not make up one")]  string location) {
 
             return await _weatherApiProxy.GetWeather(location);
         }

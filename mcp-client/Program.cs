@@ -15,7 +15,7 @@ var modelName = "gpt-4o";
 var openAIApiKey = builder.Configuration["open-ai-api-key"];
 var client = new OpenAI.OpenAIClient(openAIApiKey);
 builder.Services.AddSingleton(client.GetChatClient(modelName));
-var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri("http://localhost:5062"), UseStreamableHttp = true });
+var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri(builder.Configuration["mcp-server"]), UseStreamableHttp = true });
 var mcpClient = await McpClientFactory.CreateAsync(transport);
 builder.Services.AddSingleton(mcpClient);
 builder.Services.RegisterByConvention<Program>();

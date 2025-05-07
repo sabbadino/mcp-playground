@@ -15,8 +15,17 @@ public class KernelSettings
     public string Name { get; init; }
     public List<Model> Models { get; init; } = new();
     public List<string> Plugins { get; init; } = new();
-}
 
+    public List<McpPlugins> McpPlugins { get; init; } = new();
+
+
+}
+public class McpPlugins
+{
+    public string Url { get; init; } = "";
+    public List<string> Tools { get; init; } = new();
+    public string Name { get; init; } = "";
+}
 
 public class Model
 {

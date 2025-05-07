@@ -8,6 +8,10 @@ using System.Collections.Immutable;
 using Microsoft.OpenApi.Models;
 
 using mcp_shared.ChatGptBot.Ioc;
+using ModelContextProtocol.Client;
+using ModelContextProtocol.Protocol.Transport;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 #pragma warning disable SKEXP0070
 #pragma warning disable SKEXP0001
 
@@ -56,8 +60,11 @@ builder.Services.RegisterByConvention<Program>();
 
 foreach (var kernelSetting in semanticKernelSettings.Kernels)
 {
-    builder.Services.AddTransient(globalServiceProvider => {
-        // I do not new the Kernel since i need to call AddAzureOpenAIChatCompletion and similar
+    //it is suested to use AddTransient, but i stick to AddSingleton
+    //if you use AddTransient i's beter to create the mcclients upfront out of the lambda below
+    // or they will be created on each request 
+    builder.Services.AddSingleton(globalServiceProvider =>  {
+        // I do not new the Kernel since i need to call AddOpenAIChatCompletion and similar
         var skBuilder = Kernel.CreateBuilder();
         foreach (var model in kernelSetting.Models.Where(m => m.Category == ModelCategory.OpenAi))
         {
@@ -79,6 +86,14 @@ foreach (var kernelSetting in semanticKernelSettings.Kernels)
             var plugin = globalServiceProvider.GetRequiredKeyedService<KernelPlugin>(pluginName);
             ArgumentNullException.ThrowIfNull(plugin, $"Plugin {pluginName} could not be cast to KernelPlugin");
             kernel.Plugins.Add(plugin);
+        }
+        foreach (var mcpPlugins in kernelSetting.McpPlugins)
+        {
+            var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri(mcpPlugins.Url), UseStreamableHttp = true });
+            var mcpClient = McpClientFactory.CreateAsync(transport).Result;
+            var tools = mcpClient.ListToolsAsync().Result;
+            tools = tools.Where(t => mcpPlugins.Tools.Contains(t.Name)).ToList();   
+            kernel.Plugins.AddFromFunctions(mcpPlugins.Name, tools.Select(aiFunction => aiFunction.AsKernelFunction()));
         }
         return new KernelWrapper { SystemMessageName = kernelSetting.SystemMessageName, Kernel = kernel, Name = kernelSetting.Name, ServiceIds = kernelSetting.Models.Select(m => m.ServiceId).ToImmutableList() };
     });
