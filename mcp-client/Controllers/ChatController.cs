@@ -1,5 +1,5 @@
 using System.Text.Json;
-
+using mcp_shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ModelContextProtocol.Client;
@@ -27,10 +27,10 @@ namespace mcp_client.Controllers
         }
 
         [HttpPost(template:"ask", Name = "Ask")]
-        public async Task<Response> Ask(Question question)
+        public async Task<ResponseToUser> Ask(Question question)
         {
             var tools = await _mcpClient.ListToolsAsync();
-            List<ChatMessage>? messages = GetOrCreateConversation(question);
+            List<ChatMessage>? messages = GetOrCreateConversation(question.ConversationId);
             messages.Add(new UserChatMessage(question.Text));
             var co = new ChatCompletionOptions();
             foreach (var tool in tools)
@@ -90,16 +90,16 @@ namespace mcp_client.Controllers
                 }
             } while (requiresAction);
 
-            return new Response { Text = messages.Last().Content[0].Text, ConversationId = question.ConversationId };
+            return new ResponseToUser { Text = messages.Last().Content[0].Text, ConversationId = question.ConversationId };
         }
 
-        private static List<ChatMessage> GetOrCreateConversation(Question question)
+        private static List<ChatMessage> GetOrCreateConversation(Guid conversationId)
         {
-            _AllMmessages.TryGetValue(question.ConversationId, out var messages);
+            _AllMmessages.TryGetValue(conversationId, out var messages);
             if (messages == null)
             {
                 messages = new();
-                _AllMmessages.Add(question.ConversationId, messages);
+                _AllMmessages.Add(conversationId, messages);
             }
 
             return messages;

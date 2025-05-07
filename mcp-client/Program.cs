@@ -18,6 +18,7 @@ builder.Services.AddSingleton(client.GetChatClient(modelName));
 var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri("http://localhost:5062"), UseStreamableHttp = true });
 var mcpClient = await McpClientFactory.CreateAsync(transport);
 builder.Services.AddSingleton(mcpClient);
+builder.Services.RegisterByConvention<Program>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,0 +1,11 @@
+﻿@weathermcpserver_dapr_HostAddress = https://localhost:7025
+
+@location=london
+POST {{weathermcpserver_dapr_HostAddress}}/weatherforecast/get-weather
+Content-Type: application/json
+
+{
+  "location": "{{location}}"
+}
+
+###

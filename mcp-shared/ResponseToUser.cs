@@ -1,7 +1,6 @@
-﻿
-namespace mcp_client.Controllers
+﻿namespace mcp_shared
 {
-    public class Response
+    public class ResponseToUser
     {
         public string Text { get; init; } = "";
         public Guid ConversationId { get; init; }

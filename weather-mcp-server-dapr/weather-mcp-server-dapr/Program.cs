@@ -5,6 +5,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 using OpenTelemetry;
 using OpenTelemetry.Logs;
+using mcp_shared.ChatGptBot.Ioc;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +16,7 @@ builder.Services
     {
         
     })
+    .WithStdioServerTransport()
     .WithToolsFromAssembly();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -27,7 +29,7 @@ builder.Services.AddHttpClient();
 //        .AddAspNetCoreInstrumentation()
 //        .AddHttpClientInstrumentation().AddConsoleExporter())
 //    .WithLogging(b => b.AddConsoleExporter());
-    
+builder.Services.RegisterByConvention<Program>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using weather_mcp_server_dapr.dtos;
 
 namespace weather_mcp_server_dapr.Controllers
 {
@@ -6,28 +8,21 @@ namespace weather_mcp_server_dapr.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+       
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IWeatherApiProxy _weatherApiProxy;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherApiProxy weatherApiProxy)
         {
             _logger = logger;
+            _weatherApiProxy = weatherApiProxy;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpPost(template:"get-weather", Name = "GetCurrentWeather")]
+        public async Task<GetWeatherResponse> GetCurrentWeather([FromBody] GetWeatherRequest request)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+          return await _weatherApiProxy.GetWeather(request.Location);   
         }
     }
 }

@@ -24,7 +24,7 @@ namespace mcp_shared
             }
             public static void RegisterByConvention(this IServiceCollection services, Assembly assembly)
             {
-                var implementations = assembly.GetExportedTypes()
+                var implementations = assembly.GetTypes()
                     .Where(t => t.IsClass && typeof(ISingletonScope).IsAssignableFrom(t)).ToList();
                 foreach (var implementation in implementations)
                 {
@@ -35,7 +35,7 @@ namespace mcp_shared
                         services.AddSingleton(itf, implementation);
                     }
                 }
-                implementations = assembly.GetExportedTypes()
+                implementations = assembly.GetTypes()
                     .Where(t => t.IsClass && typeof(ITransientScope).IsAssignableFrom(t)).ToList();
                 foreach (var implementation in implementations)
                 {
@@ -46,7 +46,7 @@ namespace mcp_shared
                         services.AddTransient(itf, implementation);
                     }
                 }
-                implementations = assembly.GetExportedTypes()
+                implementations = assembly.GetTypes()
                     .Where(t => t.IsClass && typeof(IRequestScope).IsAssignableFrom(t)).ToList();
                 foreach (var implementation in implementations)
                 {
