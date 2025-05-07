@@ -4,6 +4,7 @@ using ModelContextProtocol.Protocol.Transport;
 using ModelContextProtocol.Protocol.Types;
 using OpenAI;
 using Microsoft.Extensions.AI;
+using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,16 +27,28 @@ if(useStreamableHttp!="true")
 {
     sse = "/sse";
 }
-var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri($"{builder.Configuration["mcp-server"]}{sse}"), UseStreamableHttp = useStreamableHttp != "true" ? false:true});
+var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri($"{builder.Configuration["mcp-server"]}{sse}"), UseStreamableHttp = false});
 
-var mcpClient = await McpClientFactory.CreateAsync(transport,new McpClientOptions { Capabilities = new ClientCapabilities { 
+var mcpClient = await McpClientFactory.CreateAsync(transport,new McpClientOptions {  Capabilities = new ClientCapabilities { 
     Sampling = new SamplingCapability() { SamplingHandler = samplingClient.CreateSamplingHandler() } } });
 
 
 builder.Services.AddSingleton(mcpClient);
 builder.Services.RegisterByConvention<Program>();
-var app = builder.Build();
 
+//builder.Services.AddHttpLogging(logging =>
+//{
+//    logging.LoggingFields = HttpLoggingFields.All;
+//    logging.RequestHeaders.Add("sec-ch-ua");
+//    logging.ResponseHeaders.Add("MyResponseHeader");
+//    logging.MediaTypeOptions.AddText("application/javascript");
+//    logging.RequestBodyLogLimit = 4096;
+//    logging.ResponseBodyLogLimit = 4096;
+//    logging.CombineLogs = true;
+//});
+
+var app = builder.Build();
+//app.UseHttpLogging();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

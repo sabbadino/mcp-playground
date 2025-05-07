@@ -9,15 +9,13 @@
       "applicationUrl": "http://localhost:5062"
     },
     "https": {
-        "commandName": "Project",
-        //"commandLineArgs": "--weatherApiKey=\"7ea70979788db31811aef63a3a676686\"",
-        "launchBrowser": true,
-        "launchUrl": "https://localhost:7025/openapi/v1.json",
-        "environmentVariables": {
-            "ASPNETCORE_ENVIRONMENT": "Development"
-        },
-        "dotnetRunMessages": true,
-        "applicationUrl": "https://localhost:7025;http://localhost:5062"
+      "commandName": "Project",
+      "launchUrl": "https://localhost:7025/openapi/v1.json",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7025;http://localhost:5062"
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"

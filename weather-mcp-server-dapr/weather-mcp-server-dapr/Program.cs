@@ -67,8 +67,19 @@ builder.Services.AddHttpClient();
 //        .AddHttpClientInstrumentation().AddConsoleExporter())
 //    .WithLogging(b => b.AddConsoleExporter());
 builder.Services.RegisterByConvention<Program>();
-var app = builder.Build();
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.All;
+    logging.RequestHeaders.Add("sec-ch-ua");
+    logging.ResponseHeaders.Add("MyResponseHeader");
+    logging.MediaTypeOptions.AddText("application/javascript");
+    logging.RequestBodyLogLimit = 4096;
+    logging.ResponseBodyLogLimit = 4096;
+    logging.CombineLogs = true;
+});
 
+var app = builder.Build();
+app.UseHttpLogging();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
