@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "info", "info", "{02EA681E-C
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp-client", "..\mcp-client\mcp-client.csproj", "{DDFECC14-9A7A-4A91-B3DA-8DEC6ADB644F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp_client", "..\mcp-client\mcp_client.csproj", "{DDFECC14-9A7A-4A91-B3DA-8DEC6ADB644F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp-shared", "..\mcp-shared\mcp-shared.csproj", "{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}"
 EndProject
@@ -34,14 +34,14 @@ Global
 		{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Debug|Any CPU.ActiveCfg = Debug
-		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Debug|Any CPU.Build.0 = Debug
-		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Release|Any CPU.ActiveCfg = Release
-		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Release|Any CPU.Build.0 = Release
 		{18CE16DB-3EF1-4FF2-916A-082265311DC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{18CE16DB-3EF1-4FF2-916A-082265311DC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18CE16DB-3EF1-4FF2-916A-082265311DC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18CE16DB-3EF1-4FF2-916A-082265311DC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Debug|Any CPU.ActiveCfg = Debug
+		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Debug|Any CPU.Build.0 = Debug
+		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Release|Any CPU.ActiveCfg = Release
+		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

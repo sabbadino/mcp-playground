@@ -1,0 +1,10 @@
+﻿@mcp_client_HostAddress = https://localhost:7005
+
+POST {{mcp_client_HostAddress}}/chat/ask
+Content-Type: application/json
+
+{
+  "Text" : "how is teh weather in london today ?" 
+}
+
+###

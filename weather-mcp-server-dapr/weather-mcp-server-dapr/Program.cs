@@ -12,10 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddDapr();
 builder.Services
-    .AddMcpServer().WithHttpTransport(o =>
-    {
-        
-    })
+    .AddMcpServer().WithHttpTransport()
     .WithStdioServerTransport()
     .WithToolsFromAssembly()
     .WithPromptsFromAssembly();

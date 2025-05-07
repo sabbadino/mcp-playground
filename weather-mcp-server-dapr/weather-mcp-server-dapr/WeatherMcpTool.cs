@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.AI;
+﻿using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.Extensions.AI;
 using ModelContextProtocol.Server;
 using System;
 using System.ComponentModel;
@@ -24,20 +25,29 @@ namespace weather_mcp_server_dapr
         public async Task<string> Get_Weather([Description("The location (town or region) name. IMPORTANT : Assistant must ask the user a value for location. If not provided in the conversation, Assistant must not not make up one")]  string location) {
             var response = await _weatherApiProxy.GetWeather(location);
 
-
-
-            ChatMessage[] messages =
-            [
-                new(ChatRole.User, "Convert the response in markdown"),
-                        new(ChatRole.User, JsonSerializer.Serialize(response)),
-    ];
-
-            ChatOptions options = new()
+            if (_thisServer.ClientCapabilities?.Sampling is not null)
             {
-                MaxOutputTokens = 1000,
-                Temperature = 0.3f,
-            };
-            return $"markdown format: {await _thisServer.AsSamplingChatClient().GetResponseAsync(messages, options)}";
+
+                //        ChatMessage[] messages =
+                //        [
+                //            new(ChatRole.User, "Convert the response in markdown"),
+                //                    new(ChatRole.User, JsonSerializer.Serialize(response)),
+                //];
+
+                ChatMessage[] messages =
+                [
+                    new(ChatRole.User, "how many planetes has the earth system?"),
+            ];
+
+                ChatOptions options = new()
+                {
+                    MaxOutputTokens = 1000,
+                    Temperature = 0.3f,
+                };
+                var sampledResponse = await _thisServer.AsSamplingChatClient().GetResponseAsync(messages, options);
+                return $"markdown format: {sampledResponse.Messages[0].Text}";
+            }
+            return JsonSerializer.Serialize(response);
         }
     }
 }
