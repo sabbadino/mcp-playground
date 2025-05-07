@@ -16,7 +16,9 @@ var openAIApiKey = builder.Configuration["open-ai-api-key"];
 var client = new OpenAI.OpenAIClient(openAIApiKey);
 builder.Services.AddSingleton(client.GetChatClient(modelName));
 var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri(builder.Configuration["mcp-server"]), UseStreamableHttp = true });
+//var mcpClient = await McpClientFactory.CreateAsync(transport,new McpClientOptions { Capabilities = new ModelContextProtocol.Protocol.Types.ClientCapabilities { Sampling = new ModelContextProtocol.Protocol.Types.SamplingCapability()} });
 var mcpClient = await McpClientFactory.CreateAsync(transport);
+
 builder.Services.AddSingleton(mcpClient);
 builder.Services.RegisterByConvention<Program>();
 var app = builder.Build();
