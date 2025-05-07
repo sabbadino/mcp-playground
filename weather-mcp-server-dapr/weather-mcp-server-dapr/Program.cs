@@ -6,6 +6,7 @@ using OpenTelemetry.Trace;
 using OpenTelemetry;
 using OpenTelemetry.Logs;
 using mcp_shared.ChatGptBot.Ioc;
+using ModelContextProtocol.Protocol.Types;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,7 +16,45 @@ builder.Services
     .AddMcpServer().WithHttpTransport()
     .WithStdioServerTransport()
     .WithToolsFromAssembly()
-    .WithPromptsFromAssembly();
+    .WithPromptsFromAssembly()
+    .WithListResourcesHandler(async (ctx, ct) =>
+    {
+        return new ListResourcesResult
+        {
+            Resources =
+            [
+                new Resource { Name = "Direct Text Resource", Description = "A direct text resource", MimeType = "text/plain", Uri = "file:///c:/Temp" },
+            ]
+        };
+    })
+      .WithReadResourceHandler(async (ctx, ct) =>
+      {
+          var uri = ctx.Params?.Uri;
+
+          if (uri == "file:///c:/Temp")
+          {
+              Uri uris = new Uri(uri);
+              string windowsPath = uris.LocalPath;
+              var contents = new List<TextResourceContents>();
+              Directory.GetFiles(windowsPath).ToList().ForEach(f =>
+              {
+                  contents.Add(new TextResourceContents
+                  {
+                      Text = File.ReadAllText(f),
+                      MimeType = "text/plain",
+                      Uri = f,
+                  });   
+              });   
+              return new ReadResourceResult
+              {
+                  Contents = contents.Cast<ResourceContents>().ToList()
+              };
+          }
+          return new ReadResourceResult
+          {
+
+          };
+      });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddHttpClient();

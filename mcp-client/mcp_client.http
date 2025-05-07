@@ -8,3 +8,12 @@ Content-Type: application/json
 }
 
 ###
+
+GET {{mcp_client_HostAddress}}/chat/resources
+
+###
+
+@resource=file%3A%2F%2F%2Fc%3A%2FTemp
+GET {{mcp_client_HostAddress}}/chat/resource?name={{resource}}
+
+###

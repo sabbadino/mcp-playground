@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 using mcp_shared;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,32 @@ namespace mcp_client.Controllers
             _logger = logger;
             _chatClient = chatClient;
             _mcpClient = mcpClient;
+        }
+        [HttpGet(template: "resources", Name = "resources")]
+        public string ListResources()
+        {
+            var sb = new StringBuilder();
+            var resources = _mcpClient.EnumerateResourcesAsync();
+            foreach(var resource in resources.ToBlockingEnumerable())
+            {
+                sb.AppendLine(resource.Uri);
+            }
+            return sb.ToString();   
+        }
+
+        [HttpGet(template: "resource", Name = "resource")]
+        public async Task<string> ListResources([FromQuery] string name= "file:///c:/Temp")
+        {
+            var sb = new StringBuilder();
+            var resources = await _mcpClient.ReadResourceAsync(name);
+            foreach (var content in resources.Contents)
+            {
+                if (content is TextResourceContents str)
+                {
+                    sb.AppendLine(str.Text);
+                }
+            }
+            return sb.ToString();
         }
 
         [HttpPost(template:"ask", Name = "Ask")]
