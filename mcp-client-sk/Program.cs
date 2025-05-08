@@ -92,7 +92,7 @@ foreach (var kernelSetting in semanticKernelSettings.Kernels)
             var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri(mcpPlugins.Url), UseStreamableHttp = true });
             var mcpClient = McpClientFactory.CreateAsync(transport).Result;
             var tools = mcpClient.ListToolsAsync().Result;
-            tools = tools.Where(t => mcpPlugins.Tools.Contains(t.Name)).ToList();   
+            tools = tools.Where(t => mcpPlugins.AcceptedTools.Contains(t.Name) || mcpPlugins.AcceptedTools.Contains("*")).ToList();   
             kernel.Plugins.AddFromFunctions(mcpPlugins.Name, tools.Select(aiFunction => aiFunction.AsKernelFunction()));
         }
         return new KernelWrapper { SystemMessageName = kernelSetting.SystemMessageName, Kernel = kernel, Name = kernelSetting.Name, ServiceIds = kernelSetting.Models.Select(m => m.ServiceId).ToImmutableList() };

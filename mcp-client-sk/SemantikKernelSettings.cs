@@ -23,8 +23,8 @@ public class KernelSettings
 public class McpPlugins
 {
     public string Url { get; init; } = "";
-    public List<string> Tools { get; init; } = new();
-    public string Name { get; init; } = "";
+    public List<string> AcceptedTools { get; init; } = new();
+    public string SkPluginName { get; init; } = "";
 }
 
 public class Model

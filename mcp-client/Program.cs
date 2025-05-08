@@ -23,7 +23,7 @@ var samplingClient = chatClient.AsIChatClient();
 builder.Services.AddSingleton(chatClient);
 var useStreamableHttp = builder.Configuration["UseStreamableHttp"] ?? "true";
 var sse = "";
-if(useStreamableHttp!="true")
+if (useStreamableHttp != "true")
 {
     sse = "/sse";
 }
