@@ -24,7 +24,7 @@ public class McpPlugins
 {
     public string Url { get; init; } = "";
     public List<string> AcceptedTools { get; init; } = new();
-    public string SkPluginName { get; init; } = "";
+    public string AsSkPluginNamed { get; init; } = "";
 }
 
 public class Model
