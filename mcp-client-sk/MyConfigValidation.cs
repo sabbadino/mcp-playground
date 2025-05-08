@@ -63,7 +63,7 @@ public class SemanticKernelSettingsValidation : IValidateOptions<SemanticKernels
                     var failureReason = $"string.IsNullOrWhiteSpace(model.DeploymentName) kernelIndex {kernelSettings.kernelIndex} , modelIndex {model.index}";
                     return ValidateOptionsResult.Fail(failureReason);
                 }
-                if (string.IsNullOrWhiteSpace(model.value.Url) && model.value.Category!= ModelCategory.OpenAi)
+                if (string.IsNullOrWhiteSpace(model.value.Url) && model.value.UrlRequired)
                 {
                     var failureReason = $"string.IsNullOrWhiteSpace(model.Url) for kernelIndex {kernelSettings.kernelIndex} , modelIndex {model.index}";
                     return ValidateOptionsResult.Fail(failureReason);

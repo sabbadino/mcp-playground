@@ -14,18 +14,16 @@ namespace weather_mcp_server_dapr
     public sealed class WeatherMcpTool 
     {
         private readonly IWeatherApiProxy _weatherApiProxy;
-        private readonly IMcpServer _thisServer;
 
-        public WeatherMcpTool(IWeatherApiProxy weatherApiProxy, IMcpServer thisServer)
+        public WeatherMcpTool(IWeatherApiProxy weatherApiProxy)
         {
             _weatherApiProxy = weatherApiProxy;
-            _thisServer = thisServer;
         }   
         [McpServerTool(Name ="get_current_weather"), Description("returns the current weather given a town or region name")]
-        public async Task<string> Get_Weather([Description("The location (town or region) name. IMPORTANT : Assistant must ask the user a value for location. If not provided in the conversation, Assistant must not not make up one")]  string location) {
+        public async Task<string> Get_Weather(IMcpServer mcpServer, [Description("The location (town or region) name. IMPORTANT : Assistant must ask the user a value for location. If not provided in the conversation, Assistant must not not make up one")]  string location) {
             var response = await _weatherApiProxy.GetWeather(location);
 
-            if (_thisServer.ClientCapabilities?.Sampling is not null)
+            if (mcpServer.ClientCapabilities?.Sampling is not null)
             {
 
                 //        ChatMessage[] messages =
@@ -44,7 +42,7 @@ namespace weather_mcp_server_dapr
                     MaxOutputTokens = 1000,
                     Temperature = 0.3f,
                 };
-                var sampledResponse = await _thisServer.AsSamplingChatClient().GetResponseAsync(messages, options);
+                var sampledResponse = await mcpServer.AsSamplingChatClient().GetResponseAsync(messages, options);
                 return $"markdown format: {sampledResponse.Messages[0].Text}";
             }
             return JsonSerializer.Serialize(response);

@@ -35,7 +35,9 @@ public class Model
     public string ModelName { get; init; } = "";
    
     public string Url { get; init; } = "";
-  
+
+    public bool UrlRequired { get; init; } = false;
+
     public string ApiKeyName { get; init; } = "";
     public string ServiceId { get; init; } = "";
 }
@@ -44,5 +46,6 @@ public enum ModelCategory
 {
     None,
     OpenAi, 
-    Ollama
+    Ollama,
+    Gemini
 }

@@ -79,6 +79,16 @@ foreach (var kernelSetting in semanticKernelSettings.Kernels)
         {
             skBuilder.AddOllamaChatCompletion(model.ModelName, new Uri(model.Url), serviceId: model.ServiceId);
         }
+        foreach (var model in kernelSetting.Models.Where(m => m.Category == ModelCategory.Gemini))
+        {
+            var apiKeyName = builder.Configuration[model.ApiKeyName];
+            if (string.IsNullOrEmpty(apiKeyName))
+            {
+                throw new Exception($"Could not find value for key {apiKeyName}");
+            }
+            skBuilder.AddGoogleAIGeminiChatCompletion(model.ModelName, apiKeyName, serviceId: model.ServiceId);
+        }
+
         skBuilder.Services.AddLogging(l => l.SetMinimumLevel(LogLevel.Debug).AddConsole());
         var kernel = skBuilder.Build();
         foreach (var pluginName in kernelSetting.Plugins)
