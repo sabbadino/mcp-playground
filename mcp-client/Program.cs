@@ -27,7 +27,7 @@ if(useStreamableHttp!="true")
 {
     sse = "/sse";
 }
-var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri($"{builder.Configuration["mcp-server"]}{sse}"), UseStreamableHttp = false});
+var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri($"{builder.Configuration["mcp-server"]}{sse}"), UseStreamableHttp = useStreamableHttp != "true" ? false : true });
 
 var mcpClient = await McpClientFactory.CreateAsync(transport,new McpClientOptions {  Capabilities = new ClientCapabilities { 
     Sampling = new SamplingCapability() { SamplingHandler = samplingClient.CreateSamplingHandler() } } });
@@ -36,20 +36,17 @@ var mcpClient = await McpClientFactory.CreateAsync(transport,new McpClientOption
 builder.Services.AddSingleton(mcpClient);
 builder.Services.RegisterByConvention<Program>();
 
-//builder.Services.AddHttpLogging(logging =>
-//{
-//    logging.LoggingFields = HttpLoggingFields.All;
-//    logging.RequestHeaders.Add("sec-ch-ua");
-//    logging.ResponseHeaders.Add("MyResponseHeader");
-//    logging.MediaTypeOptions.AddText("application/javascript");
-//    logging.RequestBodyLogLimit = 4096;
-//    logging.ResponseBodyLogLimit = 4096;
-//    logging.CombineLogs = true;
-//});
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = HttpLoggingFields.All;
+    logging.RequestBodyLogLimit = 4096;
+    logging.ResponseBodyLogLimit = 4096;
+    logging.CombineLogs = true;
+});
 
 var app = builder.Build();
-//app.UseHttpLogging();
-// Configure the HTTP request pipeline.
+app.UseHttpLogging();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
