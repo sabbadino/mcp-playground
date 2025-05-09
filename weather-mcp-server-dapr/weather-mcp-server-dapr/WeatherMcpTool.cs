@@ -26,16 +26,13 @@ namespace weather_mcp_server_dapr
             if (mcpServer.ClientCapabilities?.Sampling is not null)
             {
 
-                //        ChatMessage[] messages =
-                //        [
-                //            new(ChatRole.User, "Convert the response in markdown"),
-                //                    new(ChatRole.User, JsonSerializer.Serialize(response)),
-                //];
+                        ChatMessage[] messages =
+                        [
+                            new(ChatRole.User, "rewrite the provided json in markdown format"),
+                            new(ChatRole.User, JsonSerializer.Serialize(response)),
 
-                ChatMessage[] messages =
-                [
-                    new(ChatRole.User, "how many planetes has the earth system?"),
-            ];
+                ];
+
 
                 ChatOptions options = new()
                 {
@@ -43,7 +40,7 @@ namespace weather_mcp_server_dapr
                     Temperature = 0.3f,
                 };
                 var sampledResponse = await mcpServer.AsSamplingChatClient().GetResponseAsync(messages, options);
-                return $"markdown format: {sampledResponse.Messages[0].Text}";
+                return $"here is the response in markdown format: {sampledResponse.Messages[0].Text}";
             }
             return JsonSerializer.Serialize(response);
         }

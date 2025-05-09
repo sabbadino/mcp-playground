@@ -66,6 +66,10 @@ foreach (var kernelSetting in semanticKernelSettings.Kernels)
     builder.Services.AddSingleton(globalServiceProvider =>  {
         // I do not new the Kernel since i need to call AddOpenAIChatCompletion and similar
         var skBuilder = Kernel.CreateBuilder();
+
+        skBuilder.Services.AddLogging(configure => configure.AddConsole());
+        skBuilder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Trace));
+        
         foreach (var model in kernelSetting.Models.Where(m => m.Category == ModelCategory.OpenAi))
         {
             var apiKeyName = builder.Configuration[model.ApiKeyName];
@@ -89,7 +93,6 @@ foreach (var kernelSetting in semanticKernelSettings.Kernels)
             skBuilder.AddGoogleAIGeminiChatCompletion(model.ModelName, apiKeyName, serviceId: model.ServiceId);
         }
 
-        skBuilder.Services.AddLogging(l => l.SetMinimumLevel(LogLevel.Debug).AddConsole());
         var kernel = skBuilder.Build();
         foreach (var pluginName in kernelSetting.Plugins)
         {
@@ -105,7 +108,7 @@ foreach (var kernelSetting in semanticKernelSettings.Kernels)
             tools = tools.Where(t => mcpPlugins.AcceptedTools.Contains(t.Name) || mcpPlugins.AcceptedTools.Contains("*")).ToList();   
             kernel.Plugins.AddFromFunctions(mcpPlugins.AsSkPluginNamed, tools.Select(aiFunction => aiFunction.AsKernelFunction()));
         }
-        return new KernelWrapper { SystemMessageName = kernelSetting.SystemMessageName, Kernel = kernel, Name = kernelSetting.Name, ServiceIds = kernelSetting.Models.Select(m => m.ServiceId).ToImmutableList() };
+        return new KernelWrapper { SystemMessageName = kernelSetting.SystemMessageName, Kernel = kernel, Name = kernelSetting.Name, Models = kernelSetting.Models.ToImmutableList()};
     });
 
 

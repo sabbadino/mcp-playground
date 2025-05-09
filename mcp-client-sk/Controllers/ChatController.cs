@@ -6,6 +6,7 @@ using Microsoft.SemanticKernel.ChatCompletion;
 using System.Text;
 using OpenAI.Chat;
 using mcp_shared;
+using Microsoft.SemanticKernel.Connectors.Google;
 #pragma warning disable SKEXP0001
 
 namespace SkRestApiV1.Controllers
@@ -30,27 +31,26 @@ namespace SkRestApiV1.Controllers
             _templatesProvider = templatesProvider;
         }
 
-        [HttpPost(template:"ask", Name = "Ask")]
+        [HttpPost(template: "ask", Name = "Ask")]
         public async Task<ActionResult<ResponseToUser>> Ask([FromBody] UserQuestion question)
         {
-            if(string.IsNullOrEmpty(question.KernelName) && !string.IsNullOrEmpty(question.ServiceId))
+            if (string.IsNullOrEmpty(question.KernelName) && !string.IsNullOrEmpty(question.ServiceId))
             {
-                return BadRequest($"ServiceId {question.KernelName} is not valid without a KernelName"); 
+                return BadRequest($"ServiceId {question.KernelName} is not valid without a KernelName");
             }
 
             var defaultKernelName = _semanticKernelSettings.Kernels.Single(k => k.IsDefault).Name;
             var kernelWrapper = _kernelWrappers.SingleOrDefault(k => k.Name == defaultKernelName);
+
             ArgumentNullException.ThrowIfNull(kernelWrapper, $"Default kernel {defaultKernelName} not found");
-            var promptExecutionSettings = new PromptExecutionSettings ();
-            promptExecutionSettings.FunctionChoiceBehavior = FunctionChoiceBehavior.Auto();
-            string? serviceId = null;
+            var serviceId = kernelWrapper.Models.SingleOrDefault(m => m.IsDefault)?.ServiceId;    
             if (!string.IsNullOrWhiteSpace(question.KernelName)) {
                 kernelWrapper = _kernelWrappers.SingleOrDefault(k => k.Name == question.KernelName);
                 if (kernelWrapper!=null)
                 {
                     if (!string.IsNullOrWhiteSpace(question.ServiceId))
                     {
-                        var modelId = kernelWrapper.ServiceIds.SingleOrDefault(m => m == question.ServiceId);
+                        var modelId = kernelWrapper.Models.SingleOrDefault(m => m.ServiceId == question.ServiceId);
                         if (modelId!=null)
                         {
                             serviceId = question.ServiceId;
@@ -66,6 +66,7 @@ namespace SkRestApiV1.Controllers
                     return BadRequest($"KernelName {question.KernelName} not found"); 
                 }
             }
+          
             var k = kernelWrapper.Kernel.GetRequiredService<IChatCompletionService>(serviceId);
 
             ChatHistory? history = await GetOrCreateConversation(question,kernelWrapper);
@@ -74,6 +75,19 @@ namespace SkRestApiV1.Controllers
             history.AddUserMessage(question.UserPrompt);
 
             // responses are automatically added to the history passed as input 
+            var model = kernelWrapper.Models.SingleOrDefault(m => m.ServiceId == serviceId);
+            ArgumentNullException.ThrowIfNull(model, $"Model {question.ServiceId} not found in kernel {kernelWrapper.Name}");
+            var promptExecutionSettings = new PromptExecutionSettings();
+            promptExecutionSettings.FunctionChoiceBehavior = FunctionChoiceBehavior.Auto();
+            if (model.Category == ModelCategory.Gemini)
+            {
+#pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+                var geminiPromptExecutionSettings = new GeminiPromptExecutionSettings();
+                geminiPromptExecutionSettings.ToolCallBehavior = GeminiToolCallBehavior.AutoInvokeKernelFunctions;
+                promptExecutionSettings = geminiPromptExecutionSettings;    
+            }
+            #pragma warning restore SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            //        }
             var response = await k.GetChatMessageContentAsync(history, promptExecutionSettings, kernelWrapper.Kernel);
            
 

@@ -28,12 +28,19 @@ if (useStreamableHttp != "true")
     sse = "/sse";
 }
 var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri($"{builder.Configuration["mcp-server"]}{sse}"), UseStreamableHttp = useStreamableHttp != "true" ? false : true });
+builder.Services.AddSingleton((serviceProvider) =>
+{
+    var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+    var mcpClient = McpClientFactory.CreateAsync(transport, new McpClientOptions
+    {
+        Capabilities = new ClientCapabilities
+        {
+            Sampling = new SamplingCapability() { SamplingHandler = samplingClient.CreateSamplingHandler() }
+        }
+    }, loggerFactory).Result;
+    return mcpClient;
+});
 
-var mcpClient = await McpClientFactory.CreateAsync(transport,new McpClientOptions {  Capabilities = new ClientCapabilities { 
-    Sampling = new SamplingCapability() { SamplingHandler = samplingClient.CreateSamplingHandler() } } });
-
-
-builder.Services.AddSingleton(mcpClient);
 builder.Services.RegisterByConvention<Program>();
 
 builder.Services.AddHttpLogging(logging =>

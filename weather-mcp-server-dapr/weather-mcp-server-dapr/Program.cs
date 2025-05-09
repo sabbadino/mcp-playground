@@ -69,7 +69,10 @@ builder.Services.AddHttpClient();
 builder.Services.RegisterByConvention<Program>();
 builder.Services.AddHttpLogging(logging =>
 {
-    logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.All;
+    logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestBody |
+    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseBody |
+    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseHeaders|
+    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestHeaders ;
     logging.RequestBodyLogLimit = 4096;
     logging.ResponseBodyLogLimit = 4096;
     logging.CombineLogs = true;
