@@ -12,6 +12,9 @@ using ModelContextProtocol.Client;
 using ModelContextProtocol.Protocol.Transport;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
+using ModelContextProtocol.Protocol.Types;
+using Microsoft.Extensions.AI;
 #pragma warning disable SKEXP0070
 #pragma warning disable SKEXP0001
 
@@ -22,6 +25,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+var modelName = "gpt-4o";
+var openAIApiKey = builder.Configuration["sampling-open-ai-api-key"];
+var client = new OpenAI.OpenAIClient(openAIApiKey);
+var chatClient = client.GetChatClient(modelName);
+var samplingClient = chatClient.AsIChatClient();
 
 builder.Services.AddOptions<SemanticKernelsSettings>()
     .BindConfiguration(nameof(SemanticKernelsSettings))
@@ -66,7 +75,7 @@ foreach (var kernelSetting in semanticKernelSettings.Kernels)
     builder.Services.AddSingleton(globalServiceProvider =>  {
         // I do not new the Kernel since i need to call AddOpenAIChatCompletion and similar
         var skBuilder = Kernel.CreateBuilder();
-
+        var loggerFactory = globalServiceProvider.GetRequiredService<ILoggerFactory>();
         skBuilder.Services.AddLogging(configure => configure.AddConsole());
         skBuilder.Services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Trace));
         
@@ -103,7 +112,13 @@ foreach (var kernelSetting in semanticKernelSettings.Kernels)
         foreach (var mcpPlugins in kernelSetting.McpPlugins)
         {
             var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri(mcpPlugins.Url), UseStreamableHttp = true });
-            var mcpClient = McpClientFactory.CreateAsync(transport).Result;
+            var mcpClient = McpClientFactory.CreateAsync(transport, new McpClientOptions
+            {
+                Capabilities = new ClientCapabilities
+                {
+                    Sampling = new SamplingCapability() { SamplingHandler = samplingClient.CreateSamplingHandler() }
+                }
+            }, loggerFactory).Result;
             var tools = mcpClient.ListToolsAsync().Result;
             tools = tools.Where(t => mcpPlugins.AcceptedTools.Contains(t.Name) || mcpPlugins.AcceptedTools.Contains("*")).ToList();   
             kernel.Plugins.AddFromFunctions(mcpPlugins.AsSkPluginNamed, tools.Select(aiFunction => aiFunction.AsKernelFunction()));

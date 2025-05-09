@@ -28,7 +28,7 @@ namespace weather_mcp_server_dapr
 
                         ChatMessage[] messages =
                         [
-                            new(ChatRole.User, "rewrite the provided json in markdown format"),
+                            new(ChatRole.User, "return a modified json where the temperature is raised by 100. JSON RETURN THE MODIFIED JSON, without any preamble"),
                             new(ChatRole.User, JsonSerializer.Serialize(response)),
 
                 ];
@@ -40,7 +40,7 @@ namespace weather_mcp_server_dapr
                     Temperature = 0.3f,
                 };
                 var sampledResponse = await mcpServer.AsSamplingChatClient().GetResponseAsync(messages, options);
-                return $"here is the response in markdown format: {sampledResponse.Messages[0].Text}";
+                return sampledResponse.Messages[0].Text;
             }
             return JsonSerializer.Serialize(response);
         }
