@@ -4,6 +4,7 @@ using weather_mcp_server_dapr.dtos;
 
 namespace weather_mcp_server_dapr.Controllers
 {
+    // this controller is for testing purpouses only. It is not required to have the mcp working
     [ApiController]
     [Route("[controller]")]
     public class CurrentWeatherController : ControllerBase
@@ -25,20 +26,7 @@ namespace weather_mcp_server_dapr.Controllers
           return await _weatherApiProxy.GetWeather(request.Location);   
         }
 
-        [HttpGet(template:"get-computer-name", Name ="GetComputerName")]
-        public ActionResult<string> GetComputerName()
-        {
-            try
-            {
-                string computerName = Environment.MachineName;
-                return Ok(computerName);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while retrieving the computer name.");
-                return StatusCode(500, "An error occurred while retrieving the computer name.");
-            }
-        }
+      
 
         
     }

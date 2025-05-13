@@ -1,0 +1,18 @@
+﻿@weathermcpserver_HostAddress = https://localhost:7025
+
+
+@location=london
+POST {{weathermcpserver_HostAddress}}/currentWeather/get-weather
+Content-Type: application/json
+
+{
+  "location": "{{location}}"
+}
+
+
+
+
+
+
+
+

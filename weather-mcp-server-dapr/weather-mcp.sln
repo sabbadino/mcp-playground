@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp-shared", "..\mcp-shared
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp_client_sk", "..\mcp-client-sk\mcp_client_sk.csproj", "{18CE16DB-3EF1-4FF2-916A-082265311DC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weathermcpserver_dapr", "weather-mcp-server-dapr\weathermcpserver_dapr.csproj", "{CD540063-EFEF-BAFE-FF4B-F5AB76D4F562}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weathermcpserver", "weather-mcp-server-dapr\weathermcpserver.csproj", "{CD540063-EFEF-BAFE-FF4B-F5AB76D4F562}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

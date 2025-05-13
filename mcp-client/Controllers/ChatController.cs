@@ -90,7 +90,7 @@ namespace mcp_client.Controllers
                             {
                                 if (tools.Select(t => t.Name).Contains(toolCall.FunctionName, StringComparer.OrdinalIgnoreCase))
                                 {
-                                    var toolResult = await _mcpClient.CallToolAsync(toolCall.FunctionName, JsonSerializer.Deserialize<Dictionary<string, object>>(toolCall.FunctionArguments.ToString()));
+                                    var toolResult = await _mcpClient.CallToolAsync(toolCall.FunctionName, JsonSerializer.Deserialize<Dictionary<string, object?>>(toolCall.FunctionArguments.ToString()));
                                     messages.Add(new ToolChatMessage(toolCall.Id, toolResult.Content[0].Text));
                                 }
                                 else

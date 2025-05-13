@@ -41,7 +41,7 @@ builder.Services.AddSingleton((serviceProvider) =>
     return mcpClient;
 });
 
-builder.Services.RegisterByConvention<Program>();
+
 
 builder.Services.AddHttpLogging(logging =>
 {

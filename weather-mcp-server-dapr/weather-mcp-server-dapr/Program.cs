@@ -1,17 +1,10 @@
-using Google.Api;
-using Microsoft.Extensions.DependencyInjection;
-using weather_mcp_server_dapr;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Trace;
-using OpenTelemetry;
-using OpenTelemetry.Logs;
 using mcp_shared.ChatGptBot.Ioc;
 using ModelContextProtocol.Protocol.Types;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddDapr();
+builder.Services.AddControllers();
 builder.Services
     .AddMcpServer().WithHttpTransport()
  //   .WithStdioServerTransport()
@@ -58,20 +51,14 @@ builder.Services
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddHttpClient();
-//builder.Services.AddOpenTelemetry()
-//    .WithTracing(b => b.AddSource("*")
-//        .AddAspNetCoreInstrumentation()
-//        .AddHttpClientInstrumentation().AddConsoleExporter())
-//    .WithMetrics(b => b.AddMeter("*")
-//        .AddAspNetCoreInstrumentation()
-//        .AddHttpClientInstrumentation().AddConsoleExporter())
-//    .WithLogging(b => b.AddConsoleExporter());
+
 builder.Services.RegisterByConvention<Program>();
 builder.Services.AddHttpLogging(logging =>
 {
     logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestBody |
     Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseBody |
     Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseHeaders|
+    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseStatusCode|
     Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestHeaders ;
     logging.RequestBodyLogLimit = 4096;
     logging.ResponseBodyLogLimit = 4096;
