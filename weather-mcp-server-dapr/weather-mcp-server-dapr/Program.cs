@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services
     .AddMcpServer().WithHttpTransport()
- //   .WithStdioServerTransport()
+    .WithStdioServerTransport()
     .WithToolsFromAssembly()
     .WithPromptsFromAssembly()
     .WithListResourcesHandler(async (ctx, ct) =>

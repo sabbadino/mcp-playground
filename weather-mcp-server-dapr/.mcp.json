@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "weather": {
+      "type": "http",
+      "disabled": false,
+      "url": "https://localhost:7025/mcp/sse"
+    }
+  }
+}

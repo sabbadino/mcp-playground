@@ -38,6 +38,7 @@ namespace mcp_client.Controllers
             return sb.ToString();   
         }
 
+
         [HttpGet(template: "resource", Name = "resource")]
         public async Task<string> ListResources([FromQuery] string name= "file:///c:/Temp")
         {

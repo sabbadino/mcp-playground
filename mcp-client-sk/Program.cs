@@ -111,7 +111,8 @@ foreach (var kernelSetting in semanticKernelSettings.Kernels)
         }
         foreach (var mcpPlugins in kernelSetting.McpPlugins)
         {
-            var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri(mcpPlugins.Url), UseStreamableHttp = true });
+            var transport = new SseClientTransport(new SseClientTransportOptions {
+                Endpoint = new Uri(mcpPlugins.Url), UseStreamableHttp = true });
             var mcpClient = McpClientFactory.CreateAsync(transport, new McpClientOptions
             {
                 Capabilities = new ClientCapabilities
