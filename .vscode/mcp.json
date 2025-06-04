@@ -1,0 +1,10 @@
+{
+    "servers": { 
+        "my-mcp-server-weather": {
+            "type": "stdio",
+            "command": "dotnet",
+            "args": ["run", "--project", "D:\\repos\\personal-github\\mcp-playground\\MpcServerConsoleApp\\McpServerConsoleApp.csproj"]
+        }
+    }
+ 
+}
