@@ -8,20 +8,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "info", "info", "{02EA681E-C
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp_client", "..\mcp-client\mcp_client.csproj", "{DDFECC14-9A7A-4A91-B3DA-8DEC6ADB644F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp_client", "mcp-client\mcp_client.csproj", "{DDFECC14-9A7A-4A91-B3DA-8DEC6ADB644F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp-shared", "..\mcp-shared\mcp-shared.csproj", "{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp-shared", "mcp-shared\mcp-shared.csproj", "{0A9F97C1-912B-42CC-9BBB-68E91BC8879C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp_client_sk", "..\mcp-client-sk\mcp_client_sk.csproj", "{18CE16DB-3EF1-4FF2-916A-082265311DC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp_client_sk", "mcp-client-sk\mcp_client_sk.csproj", "{18CE16DB-3EF1-4FF2-916A-082265311DC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weathermcpserver", "weather-mcp-server-dapr\weathermcpserver.csproj", "{CD540063-EFEF-BAFE-FF4B-F5AB76D4F562}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weathermcpserver", "weather-mcp-server\weather-mcp-server\weathermcpserver.csproj", "{CD540063-EFEF-BAFE-FF4B-F5AB76D4F562}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mcp", "mcp", "{E8536107-9A7A-4164-872B-95E964E86909}"
-	ProjectSection(SolutionItems) = preProject
-		.mcp.json = .mcp.json
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpcServerConsoleApp", "..\MpcServerConsoleApp\MpcServerConsoleApp.csproj", "{5A475186-5AE4-488B-B6A1-BD4E4152CFF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McpServerConsoleApp", "MpcServerConsoleApp\McpServerConsoleApp.csproj", "{957E3AA4-2B34-06A7-CF98-0B117183BCCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,14 +40,10 @@ Global
 		{CD540063-EFEF-BAFE-FF4B-F5AB76D4F562}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD540063-EFEF-BAFE-FF4B-F5AB76D4F562}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD540063-EFEF-BAFE-FF4B-F5AB76D4F562}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Debug|Any CPU.ActiveCfg = Debug
-		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Debug|Any CPU.Build.0 = Debug
-		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Release|Any CPU.ActiveCfg = Release
-		{D1786E2B-CAA0-4B2D-A974-9845EB9E420F}.Release|Any CPU.Build.0 = Release
-		{5A475186-5AE4-488B-B6A1-BD4E4152CFF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A475186-5AE4-488B-B6A1-BD4E4152CFF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A475186-5AE4-488B-B6A1-BD4E4152CFF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A475186-5AE4-488B-B6A1-BD4E4152CFF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{957E3AA4-2B34-06A7-CF98-0B117183BCCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{957E3AA4-2B34-06A7-CF98-0B117183BCCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{957E3AA4-2B34-06A7-CF98-0B117183BCCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{957E3AA4-2B34-06A7-CF98-0B117183BCCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
