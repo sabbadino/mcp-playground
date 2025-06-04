@@ -4,7 +4,7 @@ using mcp_shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ModelContextProtocol.Client;
-using ModelContextProtocol.Protocol.Types;
+
 using OpenAI.Chat;
 
 namespace mcp_client.Controllers
@@ -39,20 +39,20 @@ namespace mcp_client.Controllers
         }
 
 
-        [HttpGet(template: "resource", Name = "resource")]
-        public async Task<string> ListResources([FromQuery] string name= "file:///c:/Temp")
-        {
-            var sb = new StringBuilder();
-            var resources = await _mcpClient.ReadResourceAsync(name);
-            foreach (var content in resources.Contents)
-            {
-                if (content is TextResourceContents str)
-                {
-                    sb.AppendLine(str.Text);
-                }
-            }
-            return sb.ToString();
-        }
+        //[HttpGet(template: "resource", Name = "resource")]
+        //public async Task<string> ListResources([FromQuery] string name= "file:///c:/Temp")
+        //{
+        //    var sb = new StringBuilder();
+        //    var resources = await _mcpClient.ReadResourceAsync(name);
+        //    foreach (var content in resources.Contents)
+        //    {
+        //        if (content is TextResourceContents str)
+        //        {
+        //            sb.AppendLine(str.Text);
+        //        }
+        //    }
+        //    return sb.ToString();
+        //}
 
         [HttpPost(template:"ask", Name = "Ask")]
         public async Task<ResponseToUser> Ask(Question question)

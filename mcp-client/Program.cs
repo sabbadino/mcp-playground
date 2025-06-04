@@ -1,10 +1,8 @@
 using mcp_shared.ChatGptBot.Ioc;
 using ModelContextProtocol.Client;
-using ModelContextProtocol.Protocol.Transport;
-using ModelContextProtocol.Protocol.Types;
-using OpenAI;
 using Microsoft.Extensions.AI;
 using Microsoft.AspNetCore.HttpLogging;
+using ModelContextProtocol.Protocol;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +25,7 @@ if (useStreamableHttp != "true")
 {
     sse = "/sse";
 }
-var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri($"{builder.Configuration["mcp-server"]}{sse}"), UseStreamableHttp = useStreamableHttp != "true" ? false : true });
+var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri($"{builder.Configuration["mcp-server"]}{sse}"),TransportMode = useStreamableHttp == "true" ? HttpTransportMode.StreamableHttp  : HttpTransportMode.Sse });
 builder.Services.AddSingleton((serviceProvider) =>
 {
     var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();

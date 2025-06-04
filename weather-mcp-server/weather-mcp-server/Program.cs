@@ -1,53 +1,52 @@
 using mcp_shared.ChatGptBot.Ioc;
-using ModelContextProtocol.Protocol.Types;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services
-    .AddMcpServer().WithHttpTransport()
-    .WithStdioServerTransport()
-    .WithToolsFromAssembly()
-    .WithPromptsFromAssembly()
-    .WithListResourcesHandler(async (ctx, ct) =>
-    {
-        return new ListResourcesResult
-        {
-            Resources =
-            [
-                new Resource { Name = "Direct Text Resource", Description = "A direct text resource", MimeType = "text/plain", Uri = "file:///c:/Temp" },
-            ]
-        };
-    })
-      .WithReadResourceHandler(async (ctx, ct) =>
-      {
-          var uri = ctx.Params?.Uri;
+    .AddMcpServer().WithHttpTransport(o=> o.Stateless = true)
+    .WithToolsFromAssembly();
+    //.WithPromptsFromAssembly();
+    //.WithListResourcesHandler(async (ctx, ct) =>
+    //{
+    //    return new ListResourcesResult
+    //    {
+    //        Resources =
+    //        [
+    //            new Resource { Name = "Direct Text Resource", Description = "A direct text resource", MimeType = "text/plain", Uri = "file:///c:/Temp" },
+    //        ]
+    //    };
+    //})
+    //  .WithReadResourceHandler(async (ctx, ct) =>
+    //  {
+    //      var uri = ctx.Params?.Uri;
 
-          if (uri == "file:///c:/Temp")
-          {
-              Uri uris = new Uri(uri);
-              string windowsPath = uris.LocalPath;
-              var contents = new List<TextResourceContents>();
-              Directory.GetFiles(windowsPath).ToList().ForEach(f =>
-              {
-                  contents.Add(new TextResourceContents
-                  {
-                      Text = File.ReadAllText(f),
-                      MimeType = "text/plain",
-                      Uri = f,
-                  });   
-              });   
-              return new ReadResourceResult
-              {
-                  Contents = contents.Cast<ResourceContents>().ToList()
-              };
-          }
-          return new ReadResourceResult
-          {
+    //      if (uri == "file:///c:/Temp")
+    //      {
+    //          Uri uris = new Uri(uri);
+    //          string windowsPath = uris.LocalPath;
+    //          var contents = new List<TextResourceContents>();
+    //          Directory.GetFiles(windowsPath).ToList().ForEach(f =>
+    //          {
+    //              contents.Add(new TextResourceContents
+    //              {
+    //                  Text = File.ReadAllText(f),
+    //                  MimeType = "text/plain",
+    //                  Uri = f,
+    //              });   
+    //          });   
+    //          return new ReadResourceResult
+    //          {
+    //              Contents = contents.Cast<ResourceContents>().ToList()
+    //          };
+    //      }
+    //      return new ReadResourceResult
+    //      {
 
-          };
-      });
+    //      };
+    //  });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddHttpClient();
@@ -59,10 +58,13 @@ builder.Services.AddHttpLogging(logging =>
     Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseBody |
     Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseHeaders|
     Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseStatusCode|
-    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestHeaders ;
+    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestHeaders | 
+    Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestPath;
     logging.RequestBodyLogLimit = 4096;
     logging.ResponseBodyLogLimit = 4096;
-    logging.CombineLogs = true;
+    logging.CombineLogs = false;
+    logging.RequestHeaders.Add("mcp-session-id");
+    logging.ResponseHeaders.Add("mcp-session-id");
 });
 
 var app = builder.Build();

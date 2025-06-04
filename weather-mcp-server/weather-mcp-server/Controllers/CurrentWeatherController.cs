@@ -19,11 +19,12 @@ namespace weather_mcp_server_dapr.Controllers
             _logger = logger;
             _weatherApiProxy = weatherApiProxy;
         }
-
-        [HttpPost(template:"get-weather", Name = "GetCurrentWeather")]
-        public async Task<GetWeatherResponse> GetCurrentWeather([FromBody] GetWeatherRequest request)
+        //https://mfwmw9kw-7025.euw.devtunnels.ms/CurrentWeather/get-weather?location=london
+        //https://localhost:7025/CurrentWeather/get-weather?location=london
+        [HttpGet(template:"get-weather", Name = "GetCurrentWeather")]
+        public async Task<GetWeatherResponse> GetCurrentWeather([FromQuery] string location)
         {
-          return await _weatherApiProxy.GetWeather(request.Location);   
+          return await _weatherApiProxy.GetWeather(location);   
         }
 
       
