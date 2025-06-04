@@ -2,8 +2,9 @@
     "servers": { 
         "my-mcp-server-weather": {
             "type": "stdio",
-            "command": "dotnet",
-            "args": ["run", "--project", "D:\\repos\\personal-github\\mcp-playground\\MpcServerConsoleApp\\McpServerConsoleApp.csproj"]
+          "command": "dotnet",
+          // change full path to your project file. TO investigate if relative paths (to what?) are supported   
+            "args": ["run", "--project", "D:\\repos\\personal-github\\mcp-playground\\McpServerConsoleApp\\McpServerConsoleApp.csproj"]
         }
     }
  
