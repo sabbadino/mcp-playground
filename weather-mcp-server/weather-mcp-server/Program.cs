@@ -1,12 +1,13 @@
 using mcp_shared.ChatGptBot.Ioc;
-using ModelContextProtocol.Protocol.Types;
+using ModelContextProtocol.Protocol;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services
-    .AddMcpServer().WithHttpTransport()
+    .AddMcpServer().WithHttpTransport(o=> /* required for open ai mco calls */ o.Stateless=true)
     .WithStdioServerTransport()
     .WithToolsFromAssembly()
     .WithPromptsFromAssembly()
@@ -61,6 +62,8 @@ builder.Services.AddHttpLogging(logging =>
     Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.ResponseStatusCode|
     Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.RequestHeaders ;
     logging.RequestBodyLogLimit = 4096;
+    logging.ResponseHeaders.Add("mcp-session-id");
+    logging.RequestHeaders.Add(" mcp-session-id");
     logging.ResponseBodyLogLimit = 4096;
     logging.CombineLogs = true;
 });

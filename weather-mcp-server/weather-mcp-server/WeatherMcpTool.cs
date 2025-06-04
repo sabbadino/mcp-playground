@@ -28,7 +28,7 @@ namespace weather_mcp_server_dapr
             {
                 try
                 {
-                    var r = await mcpServer.RequestRootsAsync(new ModelContextProtocol.Protocol.Types.ListRootsRequestParams( ) { }, cancellationToken: CancellationToken.None);
+                    var r = await mcpServer.RequestRootsAsync(new ModelContextProtocol.Protocol.ListRootsRequestParams( ) { }, cancellationToken: CancellationToken.None);
                 }
                 catch (Exception ex) { 
                 Console.WriteLine(ex.ToString());   

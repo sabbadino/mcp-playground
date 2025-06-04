@@ -27,7 +27,7 @@ namespace MpcServerConsoleApp
             {
                 try
                 {
-                    var roots = await mcpServer.RequestRootsAsync(new ModelContextProtocol.Protocol.Types.ListRootsRequestParams( ) { }, cancellationToken: CancellationToken.None);
+                    var roots = await mcpServer.RequestRootsAsync(new ModelContextProtocol.Protocol.ListRootsRequestParams( ) { }, cancellationToken: CancellationToken.None);
                     if(roots.Roots is not null && roots.Roots.Count > 0) {
                         Console.WriteLine("Roots found: " + roots.Roots.Count);
                         foreach (var root in roots.Roots)

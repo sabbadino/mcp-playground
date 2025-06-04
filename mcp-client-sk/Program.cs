@@ -9,12 +9,8 @@ using Microsoft.OpenApi.Models;
 
 using mcp_shared.ChatGptBot.Ioc;
 using ModelContextProtocol.Client;
-using ModelContextProtocol.Protocol.Transport;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
-using ModelContextProtocol.Protocol.Types;
 using Microsoft.Extensions.AI;
+using ModelContextProtocol.Protocol;
 #pragma warning disable SKEXP0070
 #pragma warning disable SKEXP0001
 
@@ -112,7 +108,7 @@ foreach (var kernelSetting in semanticKernelSettings.Kernels)
         foreach (var mcpPlugins in kernelSetting.McpPlugins)
         {
             var transport = new SseClientTransport(new SseClientTransportOptions {
-                Endpoint = new Uri(mcpPlugins.Url), UseStreamableHttp = true });
+                Endpoint = new Uri(mcpPlugins.Url),TransportMode = HttpTransportMode.StreamableHttp });
             var mcpClient = McpClientFactory.CreateAsync(transport, new McpClientOptions
             {
                 Capabilities = new ClientCapabilities

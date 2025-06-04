@@ -4,7 +4,7 @@ using mcp_shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ModelContextProtocol.Client;
-using ModelContextProtocol.Protocol.Types;
+using ModelContextProtocol.Protocol;
 using OpenAI.Chat;
 
 namespace mcp_client.Controllers
