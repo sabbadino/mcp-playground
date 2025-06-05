@@ -19,13 +19,7 @@ var client = new OpenAI.OpenAIClient(openAIApiKey);
 var chatClient = client.GetChatClient(modelName);
 var samplingClient = chatClient.AsIChatClient();
 builder.Services.AddSingleton(chatClient);
-var useStreamableHttp = builder.Configuration["UseStreamableHttp"] ?? "true";
-var sse = "";
-if (useStreamableHttp != "true")
-{
-    sse = "/sse";
-}
-var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri($"{builder.Configuration["mcp-server"]}{sse}"), TransportMode = ("true".Equals(useStreamableHttp,StringComparison.OrdinalIgnoreCase)) ? HttpTransportMode.StreamableHttp : HttpTransportMode.Sse });
+var transport = new SseClientTransport(new SseClientTransportOptions { Endpoint = new Uri($"{builder.Configuration["mcp-server"]}"), TransportMode = HttpTransportMode.StreamableHttp });
 builder.Services.AddSingleton((serviceProvider) =>
 {
     var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
@@ -49,6 +43,7 @@ builder.Services.AddHttpLogging(logging =>
     logging.CombineLogs = true;
 });
 
+builder.Services.AddHttpClient();
 var app = builder.Build();
 app.UseHttpLogging();
 

@@ -4,7 +4,16 @@ POST {{mcp_client_HostAddress}}/chat/ask
 Content-Type: application/json
 
 {
-  "Text" : "how is teh weather in london today ?" 
+  "Text" : "how is the weather in london today ?" 
+}
+
+###
+
+POST {{mcp_client_HostAddress}}/chat/ask-mcp
+Content-Type: application/json
+
+{
+  "Text" : "how is the weather in london today ?" 
 }
 
 ###
