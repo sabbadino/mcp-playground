@@ -137,6 +137,7 @@ namespace mcp_client.Controllers
             bool requiresAction;
             do
             {
+                // exit the loop unless there is a function call 
                 requiresAction = false;
                 ChatCompletion completion = _chatClient.CompleteChat(messages, co);
 
@@ -145,10 +146,11 @@ namespace mcp_client.Controllers
                     case ChatFinishReason.Stop:
                         {
                             // Add the assistant message to the conversation history.
+                            // exit the loop. It is a reply for the human user
                             messages.Add(new AssistantChatMessage(completion));
                             break;
                         }
-
+                    // function calls output from LLM 
                     case ChatFinishReason.ToolCalls:
                         {
                             // First, add the assistant message with tool calls to the conversation history.
@@ -159,9 +161,14 @@ namespace mcp_client.Controllers
                             {
                                 if (co.Tools.Select(t => t.FunctionName).Contains(toolCall.FunctionName, StringComparer.OrdinalIgnoreCase))
                                 {
+                                    // parse arguments of function call
                                     var args = JsonDocument.Parse(toolCall.FunctionArguments);
                                     var location = args.RootElement.GetProperty("location").ToString();
+                                    // make call to data provider 
                                     var toolResult = await GetWeather(location);
+                                    // add the response to conversation history.
+                                    // In next iteration of the while the LLM will use this information
+                                    // to return a response to the user
                                     messages.Add(new ToolChatMessage(toolCall.Id, toolResult));
                                 }
                                 else
@@ -169,7 +176,7 @@ namespace mcp_client.Controllers
                                     throw new Exception($"Tool {toolCall.FunctionName} not found");
                                 }
                             }
-
+                            // to stay in the loop, so that LLM reply knowing hte function call result 
                             requiresAction = true;
                             break;
                         }
@@ -177,7 +184,7 @@ namespace mcp_client.Controllers
                         throw new NotImplementedException(completion.FinishReason.ToString());
                 }
             } while (requiresAction);
-
+            // return the last item added in the while loop 
             return new ResponseToUser { Text = messages.Last().Content[0].Text, ConversationId = question.ConversationId };
         }
 
