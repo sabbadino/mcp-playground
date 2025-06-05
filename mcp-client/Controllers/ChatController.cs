@@ -191,6 +191,7 @@ namespace mcp_client.Controllers
         private static readonly ChatTool getCurrentWeatherTool = ChatTool.CreateFunctionTool(
         functionName: "get_current_weather",
         functionDescription: "returns the current weather given a town or region name",
+        functionSchemaIsStrict: true, // force LLM to follow function schema 100% when calling this function
         functionParameters: BinaryData.FromBytes("""
             {
                 "type": "object",
