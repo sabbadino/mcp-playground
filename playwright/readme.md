@@ -27,4 +27,6 @@ P.S. : you can also try  MS provided playwright MCP server
         },        
 </pre>
 
-but i prefer the previous one since it offers the start / end session tool that generates the playwright actions executed: in this way I can instruct github copilot to start from this file to add the required test checks 
+The fomer offers the start / end session tool that generates the playwright actions executed: in this way I can instruct github copilot to start from this file to add the required test checks 
+
+The latter expose the tool browser_snapshot that allows to return to the LLM a good description of the page 
