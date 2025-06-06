@@ -1,0 +1,23 @@
+{
+  "name": "mcp-playground",
+  "version": "1.0.0",
+  "description": "How to Run McpServerConsoleApp in vs code",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sabbadino/mcp-playground.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sabbadino/mcp-playground/issues"
+  },
+  "homepage": "https://github.com/sabbadino/mcp-playground#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}

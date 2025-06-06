@@ -5,6 +5,22 @@
           "command": "dotnet",
           // change full path to your project file. TO investigate if relative paths (to what?) are supported   
             "args": ["run", "--project", "D:\\repos\\personal-github\\mcp-playground\\McpServerConsoleApp\\McpServerConsoleApp.csproj"]
+        },
+        "playwright-ms": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "@playwright/mcp@latest",
+                 "--isolated"
+            ]
+        },
+         "playwright-executeautomation": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "@executeautomation/playwright-mcp-server@latest",
+                 "--isolated"
+            ]
         }
     }
  
