@@ -1,0 +1,4 @@
+- make sure @playwright/test is installed 
+- go to copilot chat , agent mode 
+- select file 'prompt1.md' so that copilot agent is aware of it 
+- type in agent chat 'run the prompt'
