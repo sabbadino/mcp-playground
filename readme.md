@@ -8,5 +8,5 @@ How to Run McpServerConsoleApp in vs code
 -- make sure the mcp server is listed as available (select tool under the chat input box)
 -- to debug the McpServerConsoleApp go to vs studio 2022 , attach to the McpServerConsoleApp.exe process, put break pints in McpServerConsoleApp\WeatherMcpTool.cs\Get_Weather method 
 - NOTE THAT if an mcp server os registered in the global vs code settings file, no roots will be available 
-- the WeatherMcpTool in McpServerConsoleApp, resply to a fixed rtext to the question about the weather and also write a file 
+- the WeatherMcpTool in McpServerConsoleApp, reply to a fixed text to the question about the weather and also write a file 
 on the vs code workspace to show how mcp roots work. 

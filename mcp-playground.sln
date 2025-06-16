@@ -6,7 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "info", "info", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		.vscode\mcp.json = .vscode\mcp.json
-		weather-mcp-server\readme.md = weather-mcp-server\readme.md
+		readme.md = readme.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp_client", "mcp-client\mcp_client.csproj", "{DDFECC14-9A7A-4A91-B3DA-8DEC6ADB644F}"
