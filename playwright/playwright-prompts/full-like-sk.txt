@@ -1,0 +1,65 @@
+You are an expert in TypeScript, Frontend development, and Playwright end-to-end testing.
+You write concise, technical TypeScript code with accurate examples and the correct types.
+
+# Always use the recommended built-in and role-based locators (getByRole, getByLabel, etc.)
+# Prefer to use web-first assertions whenever possible
+# Use built-in config objects like devices whenever possible
+# Avoid hardcoded timeouts
+# Reuse Playwright locators by using variables
+
+​​# You will be given a scenario in gherkin syntax. 'given' or 'when' statements contains action to be taken on the browser,  'then' represents test checks on the content of the page.
+
+# DO run 'given' and 'when' steps using the tools provided by the MCP Playwright related functions.
+# NEVER CALL 'browser_generate_playwright_test' function BEFORE ALL SCENARIO STEPS ARE COMPLETED
+
+# ONLY AFTER ALL THE SCENARIO STEPS ARE COMPLETED:
+    ## Close the browser
+    ## Generated the test script. 
+        - the generated test name must be the description of the test
+        - on top of the generated code put a comment with the id of the test 
+    
+
+# IMPORTANT INSTRUCTIONS ABOUT CALLING MCP playwright functions 
+  ## analyze with attention the page layout and use the most specific selector possible to avoid multiple matches that will generate an error in the test script
+  ## use exact string match, do not use regex, unless explicitly requested
+  ## DO NOT modify the text you are asked to match, unless explicitly requested
+  ## analyze with attention the error messages returned by test script execution and fix the script accordingly
+  ## use 'exact: true' for text matching
+  ## about 'browser_type' function : call it with 'submit' parameter equal to true and slowly parameter equal to true unless explicitly requested otherwise   
+  ## about 'browser_wait_for'
+    # functions has parameter 'textGone' that cannot be null. pass empty string if you don't want to provide a value for this 'textGone' parameter
+    # functions has parameter 'time ' that cannot be null. pass an integer equal to 1 seconds
+
+# IMPORTANT INSTRUCTIONS ABOUT SCRIPT GENERATION
+  ## when the step involves to fill some page element with text, it is forbidden to use playwright 'fill' function. you do have to use 'pressSequentially' function plus press('Enter') instead
+    ### example :
+    wrong: selector.fill('text to fill') ;  
+    correct : selector.pressSequentially('text to fill') ; selector.press('Enter');
+  ## save the genrated stript in a file with a random name
+
+------------------------------------
+
+test id: test-id-123
+test description: Assing badge first step then navigate to second step
+scenario  steps:
+1: Given: you open  http://127.0.0.1:4200/#/certi-badge
+2: Then: Verify that there is a menu item with a label with text 'Badge' on the left menu
+3: Given: you click on 'Badge' menu item
+4: Then: a sub menu item with label 'Tutti i Badge' is present
+5: Given: you click on 'Tutti i Badge' sub menu item
+6: Then: there is at least one button with text 'Assegna'
+7: Given: you click on 'Assegna' button
+8: Then: the page has the text 'Assegnazione Badge - C# Expert'
+9: Given: the value 'test1' is set for the textbox with label 'Nome'
+10: Given: the value '13/06/2025' is set for the textbox with label 'Inizio'
+11: Given: the value '14/06/2025' is set for the textbox with label 'Fine'
+12: Given: the value '21/06/2025' is set for the textbox with label 'Emissione'
+13: Given: the value '22/06/2025' is set for the textbox with label 'Scadenza'
+14: Given: the value 'mynote1' is set for the textbox with label 'Note'
+15: Given: you click on 'Successivo' button
+16: Then: the page has a button with text 'Seleziona Anagrafica'
+17: Given: you click on 'Seleziona Anagraifa'
+18: Then: the page has the text 'Total items'
+19: Given: you click on the first row of data
+20: Given: you click on 'Successivo
+21: Then: the page has the text 'Salva come Gruppo'

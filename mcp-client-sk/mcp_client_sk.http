@@ -6,7 +6,7 @@ Content-Type: application/json
 {
   
   "conversationId": "{{conversationId}}",
-  "UserPrompt" : "how is the weather in london today ?"
+  "UserPrompt" : "how is the weather in london UK today ?"
 }
 
 ###

@@ -1,7 +1,7 @@
 import { test} from './test-parameters.ts';
 import { expect } from '@playwright/test';
 test('release-notes-codegen-session', async ({ page,testSettings  }) => {
-   console.log('startUrl:', testSettings.startUrl );
+   
   // Step 1: Navigate to the intro page
   await page.goto(testSettings.startUrl);
 

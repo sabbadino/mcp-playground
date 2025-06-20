@@ -1,0 +1,10 @@
+{
+
+    "launchOptions": {
+       "args": ["--start-maximized"]
+    },
+
+    "contextOptions": {
+      "viewport": { "width": 2500, "height": 1400}
+    }
+}
