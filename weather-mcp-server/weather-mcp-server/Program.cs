@@ -8,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services
     .AddMcpServer().WithHttpTransport(o=> /* required for open ai mco calls */ o.Stateless=true)
-    .WithStdioServerTransport()
     .WithToolsFromAssembly()
     .WithPromptsFromAssembly()
     .WithListResourcesHandler(async (ctx, ct) =>
