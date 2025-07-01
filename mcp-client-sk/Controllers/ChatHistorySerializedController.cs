@@ -101,12 +101,12 @@ public class ChatHistorySerializedController : ControllerBase
     private static async Task PersistsConversation(ChatHistoryWithConversationId chatHistoryWithGuid)
     {
         ChatHistoryWithConversationId history;
-        if(!_AllMessages.ContainsKey(chatHistoryWithGuid.ConversationId)) { 
-            throw new Exception($"Conversation wth Guid {chatHistoryWithGuid.ConversationId} not found");
+        if(!_AllMessages.ContainsKey(chatHistoryWithGuid.Id)) { 
+            throw new Exception($"Conversation wth Guid {chatHistoryWithGuid.Id} not found");
         }
         else
         {
-            _AllMessages[chatHistoryWithGuid.ConversationId] = JsonSerializer.Serialize(chatHistoryWithGuid);
+            _AllMessages[chatHistoryWithGuid.Id] = JsonSerializer.Serialize(chatHistoryWithGuid);
         }
     }
 
@@ -118,7 +118,7 @@ public class ChatHistorySerializedController : ControllerBase
         {
             var chatHistory = new ChatHistory ();
             chatHistory.AddSystemMessage(await _templatesProvider.GetSystemMessage(kernelWrapper.SystemMessageName));
-            history = new ChatHistoryWithConversationId { History = chatHistory, ConversationId = question.ConversationId };
+            history = new ChatHistoryWithConversationId { History = chatHistory, Id = question.ConversationId };
             _AllMessages.Add(question.ConversationId, JsonSerializer.Serialize(history));
         }
         else
@@ -131,7 +131,7 @@ public class ChatHistorySerializedController : ControllerBase
 }
 public class ChatHistoryWithConversationId
 {
-    public required Guid ConversationId { get; init; }
+    public required Guid Id { get; init; }
     public required ChatHistory History { get; init; } 
     
 }   
