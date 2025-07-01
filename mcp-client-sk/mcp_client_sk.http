@@ -1,5 +1,36 @@
 ﻿@mcp_client_sk_HostAddress = https://localhost:7244
-@conversationId = 5a61c454-6f48-4814-afb0-3cac6ce295ad
+@conversationId = 5a61c454-6f48-4814-afb0-3cac6ce295a1
+
+
+POST {{mcp_client_sk_HostAddress}}/chat-serialized/ask
+Content-Type: application/json
+
+{
+  "conversationId": "{{conversationId}}",
+  "UserPrompt" : "how is the weather today ?"
+}
+
+###
+POST {{mcp_client_sk_HostAddress}}/chat-serialized/ask
+Content-Type: application/json
+
+{
+  "conversationId": "{{conversationId}}",
+  "UserPrompt" : "london"
+}
+
+###
+
+POST {{mcp_client_sk_HostAddress}}/chat-serialized/ask
+Content-Type: application/json
+
+{
+  "conversationId": "{{conversationId}}",
+  "UserPrompt" : "what about turin? "
+}
+
+###
+
 POST {{mcp_client_sk_HostAddress}}/chat/ask
 Content-Type: application/json
 

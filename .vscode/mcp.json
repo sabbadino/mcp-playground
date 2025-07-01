@@ -6,15 +6,6 @@
           // change full path to your project file. TO investigate if relative paths (to what?) are supported   
             "args": ["run", "--project", "D:\\repos\\personal-github\\mcp-playground\\McpServerConsoleApp\\McpServerConsoleApp.csproj"]
         },
-        // "playwright-ms": {
-        //     "type": "stdio",
-        //     "command": "npx",
-        //     "args": [
-        //         "@playwright/mcp@latest",
-        //          "--isolated",
-        //          "--config",
-        //         "D:\\repos\\personal-github\\mcp-playground\\playwright\\mcp-config.json"            ]
-        // },
          "playwright-ms": {
             "type": "stdio",
             "command": "npx",
