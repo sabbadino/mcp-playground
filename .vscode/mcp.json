@@ -15,6 +15,9 @@
                  "--viewport-size",
                 "1800, 900"
             ]
+        },
+        "my-mcp-server-weatherhttp": {
+            "url": "http://localhost:5062/mcp"
         }
         // ,
         //  "playwright-executeautomation": {
